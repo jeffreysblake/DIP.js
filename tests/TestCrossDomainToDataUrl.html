@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body onload="Test()">
+    <img id="image"></img>
+    <canvas id="testCanvas" width="512" height="512"></canvas>
+    <script type="text/javascript">
+        function Test() {
+            // Get the image into the cache as we are not testing the network speed
+            var req1 = new XMLHttpRequest;
+            req1.overrideMimeType('text/plain; charset=x-user-defined');
+            req1.open('GET', 'http://jonathanleighton.com/images/me.jpg', false);
+            req1.send(null);
+
+            var binary = '';
+            for (var i = 0, text = req1.responseText, l = text.length; i < l; i++) {
+                binary += String.fromCharCode(text.charCodeAt(i) & 0xff);
+            }
+            var image = document.getElementById('image');
+            image.src = "data:image/jpeg;base64," + window.btoa(binary);
+
+            var canvas = document.getElementById('testCanvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+
+                var Lenna = new Image();
+                Lenna.src = "data:image/jpeg;base64," + window.btoa(binary);
+
+                ctx.drawImage(Lenna, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                console.log(dataURL);
+            }
+        }
+    </script>
+</body>
+</html>

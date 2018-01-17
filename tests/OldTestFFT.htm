@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <input type="button" onclick="testFFT()" value="test fft" />
+        <br />
+        <br />
+        <br />
+    </div>    
+    <div>
+   <!-- <table>
+    <tr><td>n</td><td>r[n]</td><td>i[n]</td><td>amplitude</td><td>phase (radians) </td></tr>
+<tr><td>0</td><td>1.1</td><td>0.</td><td>1.1</td><td>0. </td></tr>
+<tr><td>1</td><td>0.</td><td>-.5</td><td>.5</td><td>-1.5708 </td></tr>
+<tr><td>2</td><td>0.</td><td>-.25</td><td>.25</td><td>-1.5708 </td></tr>
+<tr><td>3</td><td>0.</td><td>-.1667</td><td>.1667</td><td>-1.5708 </td></tr>
+<tr><td>4</td><td>0.</td><td>-.1250</td><td>.1250</td><td>-1.5708 </td></tr>
+<tr><td>.</td><td>.</td><td>.</td><td>.</td><td>. </td></tr>
+<tr><td>28</td><td>0.</td><td>.1250</td><td>.1250</td><td>1.5708 </td></tr>
+<tr><td>29</td><td>0.</td><td>.1667</td><td>.1667</td><td>1.5708 </td></tr>
+<tr><td>30</td><td>0.</td><td>.25</td><td>.25</td><td>1.5708 </td></tr>
+<tr><td>31</td><td>0.</td><td>.5</td><td>.5</td><td>1.5708   </td></tr>
+</table>-->
+</div>
+    <script type="text/javascript" src="scripts/jquery-1.6.1.js"></script>
+    <script type="text/javascript">
+
+        function initArray(arrayLength, defaultValue) {
+            var arr = [];
+            for (var i = 0; i < arrayLength; i++) {
+                arr[i] = defaultValue;
+            }
+            return arr;
+        }
+
+        function roundNumber(num, dec) {
+            var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+            return result;
+        }
+
+        //void fft_N_func (long N, double* r, double* i) {
+        function FFT(N, r, i) {
+
+            var M = N / 2; //long 
+            var lo = 0;
+            var hi = 0;
+            var k = 0;
+            var m = 0;
+            var delta = 0;
+            var t = 0; //double
+            var t1 = 0;
+            var x = 0;
+            var y = 0;
+            var twcos = 0;
+            var twsin = 0;
+            var pi = 3.1415926535897932;
+
+            //console.log('M: ' + M);
+
+            for (delta = M; delta > 0.5; delta = delta / 2) {
+                //console.log('delta: ' + delta);
+                x = pi / delta; hi = 0;
+                for (k = 0; k < M / delta; k++) {
+                    //console.log('k: ' + k);
+                    lo = hi;
+                    hi = lo + delta;
+                    for (m = 0; m < delta; m++) {
+                        //console.log('m: ' + m);
+                        t = r[lo] - r[hi];
+                        r[lo] = r[lo] + r[hi];
+                        r[hi] = t;
+                        t1 = i[lo] - i[hi];
+                        i[lo] = i[lo] + i[hi];
+                        i[hi] = t1;
+                        if (m > 0 && delta > 1) { // do twiddle multiply, but not for twiddles of 0
+                            y = m * x;
+                            twcos = Math.cos(y);
+                            twsin = -1 * Math.sin(y);
+                            t = (r[hi] - i[hi]) * twsin;
+                            r[hi] = t + r[hi] * (twcos - twsin);
+                            i[hi] = t + i[hi] * (twcos + twsin);
+                        } // end if
+                        lo++;
+                        hi++;
+                    } // end for over m
+                } // end for over k
+            } // end for over delta
+            //******** bit reverse for radix 2 *****
+            //console.log('starting bit reversal');
+            
+            var J = 0; //long ,
+            var K = 0;
+            var L = 0;
+            var N2 = N / 2;
+            for (L = 0; L < (N - 2); L++) {
+                if (L < J) {
+                    t = r[L];
+                    r[L] = r[J];
+                    r[J] = t;
+                    t1 = i[L];
+                    i[L] = i[J];
+                    i[J] = t1;
+                }
+                K = N2;
+                while (K <= J) {
+                    J = J - K; K = K / 2;
+                } // end while
+                J = J + K;
+            } // end for ***** bit reverse done ******
+            //} // end fft_N_func
+        }
+
+        function testFFT() {
+            var N = 32; //const long 
+            var r = initArray(32, 0);
+            var i = initArray(32, 0); //[N]= {0.}; //double 
+            // REPLACE WITH YOUR NUMBERS
+            var n = 0; //long  
+            var twopi = 6.2831853071795865 //,double 
+            var t = 0;
+            
+            for (var n = 0; n < N; n++) {
+                // generate saw tooth test data - DELETE IF USING OTHER DATA
+                t = twopi * n / N; //unconventional way of doing things - see Chapter 6
+                r[n] = 1.1 + Math.sin(t) + 0.5 * Math.sin(2.0 * t) + (1.0 / 3.0) *
+                Math.sin(3.0 * t) + 0.25 * Math.sin(4.0 * t) + 0.2 * Math.sin(5.0 * t) +
+                (1.0 / 6.0) * Math.sin(6.0 * t) + (1.0 / 7.0) * Math.sin(7.0 * t);
+                //console.log('r[' + n + ']: ' + r[n]);
+            } // if you print r[n], you'll see that the saw tooth goes a little negative at the end
+            //console.log('<br/>end of r<br/><br/>');
+            FFT(N, r, i);
+            //console.log('fft done');
+            //cout<<"\nfft_N_func results for N = " << N;
+            //cout<<"\n n r[n] i[n] amplitude phase(radians)\n";
+            var amp = 0; //, 
+            var phase = 0; //double 
+
+            console.log('<tr><td>n</td><td>r[n]</td><td>i[n]</td>' +
+            '<td>amplitude</td><td>phase (radians) </td></tr>');
+            for (var n = 0; n < N; n++) {
+                r[n] = roundNumber(r[n] / N, 4);
+                i[n] = roundNumber(i[n] / N, 4); // scale outputs
+                amp = roundNumber(Math.sqrt(r[n] * r[n] + i[n] * i[n]), 4);
+                if (r[n] == 0 && i[n] == 0)
+                    phase = 0;
+                else 
+                    phase = roundNumber(Math.atan2(i[n], r[n]), 4);
+                console.log('<tr><td>' + n + '</td><td>' + r[n] + '</td><td>' + i[n] +
+                '</td><td>' + amp + '</td><td>' + phase + '</td></tr>');
+                //printf("%2d\t%9.4f\t%9.4f\t%9.4f\t%9.4f\n", n, r[n], i[n], amp, phase);
+            } //end for loop over n
+            console.log('</table>');
+            //system ("PAUSE");
+            //return 0;
+        }
+
+        //$(document).ready(function () {            
+        //});     
+    </script>
+</body>
+</html>

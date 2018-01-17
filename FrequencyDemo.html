@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            list-style-image: none;
+        }
+        
+        li
+        {
+            color: Blue;
+            text-decoration: underline;
+            display: inline;
+            padding: 5px 10px 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="SpatialDemo.html">Spatial</a></li>
+            <li><a href="FrequencyDemo.html">Frequency</a></li>
+            <li><a href="IsometricProjectionDemo.html">Isometric Projection</a></li>
+        </ul>
+    </div>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <input type="button" id="btnTest" value="create fft" />
+        <br />
+        <br />
+        <div id="dipCanvas" style="vertical-align: top;">
+        </div>
+        <canvas id="sCanvas"></canvas>
+        <canvas id="dCanvas"></canvas>
+        <br />
+    </div>
+    <div>
+        <canvas id="rCanvas" style="visibility: hidden;"></canvas>
+        <canvas id="iCanvas" style="visibility: hidden;"></canvas>
+        <canvas id="quad" style="visibility: hidden;"></canvas>
+    </div>
+    <script type="text/javascript" src="scripts/jquery-1.6.1.js"></script>
+    <script type="text/javascript" src="scripts/DIPCanvas.js"></script>
+    <script type="text/javascript" src="scripts/DIPImage.js"></script>
+    <script type="text/javascript" src="scripts/DIPImageData.js"></script>
+    <script type="text/javascript" src="scripts/Histogram.js"></script>
+    <script type="text/javascript" src="scripts/DIPUtils.js"></script>
+    <script type="text/javascript" src="scripts/frequency.js"></script>
+    <script type="text/javascript">
+
+        var freq = new DipFreq();
+
+        $(document).ready(function () {
+            freq.Init("images/clown256.jpg"); //lenna256.png";
+
+            $("#btnTest").click(function (event) {
+                event.preventDefault();
+                freq.ApplyFFT();
+            });
+        });     
+    </script>
+</body>
+</html>

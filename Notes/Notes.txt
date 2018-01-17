@@ -1,0 +1,42 @@
+﻿***********Questions********************
+1. Should I create a pixel rgba object so that it reads more clearly for pixel.red as opposed to pixel[0]? 
+2. should I let the users save filters in local storage?
+3. maybe show a default for the different filters, maybe thumbnails of the various 
+transforms done in the background
+
+4. look into making dynamic elements on the page and clearing them. 
+(addendum: figure out how to position the divs appropriately)
+
+5. create matrix dynamically? gaussian is easy...
+
+6. allow for resizing of images.
+
+7. preload matrices and allow rotation?
+***********Questions********************
+
+***********Performance********************
+
+***********Performance********************
+
+
+**********TODO**************************
+
+1. figure out the code for generating a pdf (probability density function) from the data
+
+2. figure out the code for generating a fft of the image and showing the fft and inverse fft for an image.
+
+
+3. --notes for histogram equalization
+implement histogram equalization
+Normalization is a linear process. If the intensity range of the image is 50 to 180 and 
+the desired range is 0 to 255 the process entails subtracting 50 from each of pixel intensity,
+ making the range 0 to 130. Then each pixel intensity is multiplied by 255/130, 
+ making the range 0 to 255
+
+4. implement a loop and a queue for delaying processing
+add a multiple progress meter div to show the progress of various tasks.
+
+5. look at implementing various means of optimizing the existing code.
+
+6. figure out how to implement the wiener filter for blind deconvolution.
+**********TODO**************************

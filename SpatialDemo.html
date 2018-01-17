@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            list-style-image: none;
+        }
+        
+        li
+        {
+            color: Blue;
+            text-decoration: underline;
+            display: inline;
+            padding: 5px 10px 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="SpatialDemo.html">Spatial</a></li>
+            <li><a href="FrequencyDemo.html">Frequency</a></li>
+            <li><a href="IsometricProjectionDemo.html">Isometric Projection</a></li>
+        </ul>
+    </div> 
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        Click <a href="FrequencyDemo.html">here</a> to go to the new FFT demo.
+        <br />
+        <br />
+        Tested as working for Safari 5+, Internet Explorer 9, Firefox 3.6.18+, and Chrome
+        12+
+        <ul>
+            <li class="clickable">Sobel</li>
+            <li class="clickable">Sharpen</li>
+            <li class="clickable">Gaussian Blur</li>
+            <li class="clickable">Emboss Laplascian</li>
+            <li class="clickable">Mean Removal</li>
+            <li class="clickable">Edge Detect</li>
+            <li class="clickable">Identity</li>
+        </ul>
+        <br />
+        <table cellpadding="0" cellspacing="0" style="margin-left: auto; margin-right: auto;
+            text-align: left">
+            <tr>
+                <td>
+                    <input type="text" id="tb1" style="width: 30px" value="0" />
+                </td>
+                <td>
+                    <input type="text" id="tb2" style="width: 30px" value="0" />
+                </td>
+                <td>
+                    <input type="text" id="tb3" style="width: 30px" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="tb4" style="width: 30px" value="0" />
+                </td>
+                <td>
+                    <input type="text" id="tb5" style="width: 30px" value="1" />
+                </td>
+                <td>
+                    <input type="text" id="tb6" style="width: 30px" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="tb7" style="width: 30px" value="0" />
+                </td>
+                <td>
+                    <input type="text" id="tb8" style="width: 30px" value="0" />
+                </td>
+                <td>
+                    <input type="text" id="tb9" style="width: 30px" value="0" />
+                </td>
+            </tr>
+        </table>
+        <input type="button" onclick="applyFilter()" value="Apply Filter" />
+        <br />
+        <br />
+        <br />
+        <div id="dipCanvas" style="vertical-align: top;">
+        </div>
+        <div id="dipHistogram" style="vertical-align: top;">
+        </div>
+    </div>
+    <script type="text/javascript" src="scripts/jquery-1.6.1.js"></script>
+    <script type="text/javascript" src="scripts/DIPCanvas.js"></script>
+    <script type="text/javascript" src="scripts/DIPImage.js"></script>
+    <script type="text/javascript" src="scripts/DIPImageData.js"></script>
+    <script type="text/javascript" src="scripts/DIPUtils.js"></script>
+    <script type="text/javascript" src="scripts/Histogram.js"></script>
+    <script type="text/javascript" src="scripts/Spatial.js"></script>
+    <script type="text/javascript">
+        var spatial = new Spatial();
+        var logMessages = [];
+        function applyFilter(FilterName) {
+
+            if (FilterName !== undefined) {
+                spatial.ActiveFilter = spatial.Filters[FilterName];
+                $("#tb1").val(spatial.ActiveFilter[0][0]);
+                $("#tb2").val(spatial.ActiveFilter[0][1]);
+                $("#tb3").val(spatial.ActiveFilter[0][2]);
+                $("#tb4").val(spatial.ActiveFilter[1][0]);
+                $("#tb5").val(spatial.ActiveFilter[1][1]);
+                $("#tb6").val(spatial.ActiveFilter[1][2]);
+                $("#tb7").val(spatial.ActiveFilter[2][0]);
+                $("#tb8").val(spatial.ActiveFilter[2][1]);
+                $("#tb9").val(spatial.ActiveFilter[2][2]);
+            }
+            else {
+                spatial.ActiveFilter = [[Number($("#tb1").val()), Number($("#tb2").val()), Number($("#tb3").val())],
+                             [Number($("#tb4").val()), Number($("#tb5").val()), Number($("#tb6").val())],
+                             [Number($("#tb7").val()), Number($("#tb8").val()), Number($("#tb9").val())]];
+            }
+            spatial.ApplyFilter();
+        }
+
+        $(document).ready(function () {
+            spatial.Init("images/lenna256.png");
+
+            $("li.clickable").click(function (event) {
+                event.preventDefault();
+                applyFilter($(this).html());
+            });
+        });     
+    </script>
+</body>
+</html>

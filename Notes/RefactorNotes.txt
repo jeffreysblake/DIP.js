@@ -1,0 +1,56 @@
+﻿
+//break up processing for large loops. Once everything is consolidated, pass in the method, the data,
+//and the div or element to update. 
+
+function blahMain(Func, Arr, numInterrupt, alertFunc) {
+var iterations = Math.floor(Arr.length / 8);
+var leftover = Arr.length % 8;
+var i = 0;
+
+if (leftover > 0){
+    do {
+        Func(Arr[i++]);
+    } while (--leftover > 0);
+}
+
+do {
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+    Func(Arr[i++]);
+} while (--iterations > 0);
+
+}
+
+//ex.  
+var blah = function(arrSurroundingPixels, TargetPixel) {
+                for (kcol = -1; kcol <= 1; kcol++)  // kernel columns
+                    {
+                        // ignore input samples which are out of bounds
+                        var colIndex = x + kcol;
+                        var rowIndex = y + krow;
+
+                        if (rowIndex >= 0 && rowIndex < this.height && colIndex >= 0 && colIndex < this.width) {
+                            pixelRGBA = this.WorkingCanvas.getPixelRGBA(this.WorkingCanvas.Source,
+                            colIndex, rowIndex);
+
+                            rsum += pixelRGBA[0] * Filter[krow + 1][kcol + 1];
+                            gsum += pixelRGBA[1] * Filter[krow + 1][kcol + 1];
+                            bsum += pixelRGBA[2] * Filter[krow + 1][kcol + 1];
+                        }
+                    }
+    }
+    
+spatial transform requires pixels around the target pixel. no reason why we cant use the copy section code...
+
+fourier transform requires rows and columns
+
+both will benefit from an array of arrays of rows or columns
+
+ DestinationCanvas.CopyCanvasSection(this, 0, 0, 128, 128, 0, 0, 128, 128);
+                this.CopyRotatedImage(DestinationCanvas, 0, 0, 128, 128, false);
+                break;

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body onload="Draw()">
+<div style="text-align: center; padding: 25px 0px 25px 0px;">
+        <canvas id="testCanvas" width="100" height="100"></canvas>
+        <br />
+        <canvas id="testCanvas2" width="100" height="100"></canvas>
+</div>
+<script type="text/javascript">
+
+    //I found the equation to do isometric projection from 3d to 2d, it is as follows.
+    //x' = x-z
+    //y' = y + (x+z)/2
+
+    function Draw2() {
+        var canvas = document.getElementById('testCanvas2');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            var img = ctx.createImageData(100, 100);
+
+            var lessgray = 80;
+            var mediumgray = 120;
+            var moregray = 140;
+
+            for (i = 0; i < img.data.length; i += 4) {
+                var colortoinsert;
+                if (i < 10000)
+                    colortoinsert = lessgray;
+                else if (i >= 10000 && i < 25000)
+                    colortoinsert = mediumgray;
+                else
+                    colortoinsert = moregray;
+
+                img.data[i] = colortoinsert;
+                img.data[i + 1] = colortoinsert;
+                img.data[i + 2] = colortoinsert;
+                img.data[i + 3] = 255;
+            }
+            ctx.putImageData(img, 0, 0);
+        }
+    }
+
+    function setPixelRGBA (dataObject, x, y, r, g, b, a) {
+        var PixelPosition = ((y * (this.Canvas.width * 4)) + (x * 4));
+        dataObject[PixelPosition] = r;
+        dataObject[PixelPosition + 1] = g;
+        dataObject[PixelPosition + 2] = b;
+        dataObject[PixelPosition + 3] = a;
+    }
+
+    function Draw() {
+        var canvas = document.getElementById('testCanvas');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            var img = ctx.createImageData(100, 100);
+
+            var lessgray = 80;
+            var mediumgray = 120;
+            var moregray = 140;
+
+            for (i = 0; i < img.data.length; i += 4) {
+                var colortoinsert;
+                if (i < 10000)
+                    colortoinsert = lessgray;
+                else if (i >= 10000 && i < 25000)
+                    colortoinsert = mediumgray;
+                else
+                    colortoinsert = moregray;
+
+                img.data[i] = colortoinsert;
+                img.data[i + 1] = colortoinsert;
+                img.data[i + 2] = colortoinsert;
+                img.data[i + 3] = 255;
+            }
+            ctx.putImageData(img, 0, 0);
+        }
+    }    
+    </script>
+</body>
+</html>

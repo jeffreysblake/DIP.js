@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body onload="drawBoxes()">
+    <div style="text-align: center; padding: 25px 0px 25px 0px;">
+        <canvas id="testCanvas" width="400" height="400"></canvas>
+    </div>
+    <!--<script type="text/javascript" src="dsp.js"></script>-->
+    <script type="text/javascript">
+
+        
+        //I found the equation to do isometric projection from 3d to 2d, it is as follows.
+        //x' = x-z
+        //y' = y + (x+z)/2
+        
+        function drawBoxes() {
+
+            var x = 70;
+            var y = 30;
+
+            var xcounter = 3;
+            var ycounter = 1;
+
+            while(xcounter--)
+            {
+                while (ycounter--) {
+                    drawBox(x, y)
+                    y = y + 20;
+                }
+                ycounter = 1;
+                x = x + 20;
+            }
+
+            xcounter = 3;
+            x = 50;
+            y = 50;
+            while (xcounter--) {
+                while (ycounter--) {
+                    drawBox(x, y)
+                    y = y + 20;
+                }
+                ycounter = 1;
+                x = x + 20;
+            }
+
+            xcounter = 3;
+            x = 30;
+            y = 70;
+            while (xcounter--) {
+                while (ycounter--) {
+                    drawBox(x, y)
+                    y = y + 20;
+                }
+                ycounter = 1;
+                x = x + 20;
+            }
+        }
+
+        function drawBox(startX, startY) {
+            var canvas = document.getElementById('testCanvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                //ctx.clearRect(0, 0, 132, 132);
+
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(startX + 20, startY + 20);
+
+                ctx.moveTo(startX + 20, startY + 20);
+                ctx.lineTo(startX, startY + 40);
+
+                ctx.moveTo(startX, startY + 40);
+                ctx.lineTo(startX - 20, startY + 20);
+
+                ctx.moveTo(startX - 20, startY + 20);
+                ctx.lineTo(startX, startY);
+
+                ctx.strokeStyle = "#000";
+                ctx.stroke();
+            }
+        }
+
+        function drawSkewedBox(startX, startY) {
+            var canvas = document.getElementById('testCanvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                //ctx.clearRect(0, 0, 132, 132);
+                //we're drawing cubes here
+                // -20 and 50
+                //0.363970234  20
+                //1.19175359 50
+                //var startX = 40;
+                //var startY = 40;
+
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(startX + 20, startY + 20 * 0.363970234);
+
+                ctx.moveTo(startX + 20, startY + 20 * 0.363970234);
+                ctx.lineTo(startX, startY + 40 * 0.363970234);
+
+                ctx.moveTo(startX, startY + 40 * 0.363970234);
+                ctx.lineTo(startX - 20, startY * 1.19175359);
+
+                ctx.moveTo(startX - 20, startY * 1.19175359);
+                ctx.lineTo(startX, startY);
+                 
+                ctx.strokeStyle = "#000";
+                ctx.stroke();
+            } 
+        }
+    </script>
+</body>
+</html>

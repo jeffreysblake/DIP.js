@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            list-style-image: none;
+        }
+        
+        li
+        {
+            color: Blue;
+            text-decoration: underline;
+            display: inline;
+            padding: 5px 10px 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="SpatialDemo.html">Spatial</a></li>
+            <li><a href="FrequencyDemo.html">Frequency</a></li>
+            <li><a href="IsometricProjectionDemo.html">Isometric Projection</a></li>
+        </ul>
+    </div>
+    <div style="width: 100%; text-align: center; padding: 25px 0px 25px 0px;">
+        <table cellpadding="0" cellspacing="0" style="margin-left: auto; margin-right: auto;
+            text-align: left">
+            <tr>
+                <td>
+                    obs x:<input type="text" id="tb1" style="width: 30px" value="20" />
+                </td>
+                <td>
+                    obs y:
+                    <input type="text" id="tb2" style="width: 30px" value="60" />
+                </td>
+                <td>
+                    obs z:
+                    <input type="text" id="tb3" style="width: 30px" value="40" />
+                </td>
+            </tr>
+        </table>
+        <input type="button" onclick="applyProjection()" value="Apply Projection" />
+        <br />
+        <br />
+        <br />
+        <div id="dipCanvas">
+        </div>
+    </div>
+    <script type="text/javascript" src="scripts/jquery-1.6.1.js"></script>
+    <script type="text/javascript" src="scripts/DIPCanvas.js"></script>
+    <script type="text/javascript" src="scripts/DIPImage.js"></script>
+    <script type="text/javascript" src="scripts/DIPImageData.js"></script>
+    <script type="text/javascript" src="scripts/Histogram.js"></script>
+    <script type="text/javascript" src="scripts/DIPUtils.js"></script>
+    <script type="text/javascript" src="scripts/Projection.js"></script>
+    <script type="text/javascript">
+        var projection = new Projection();
+        var logMessages = [];
+
+        function applyProjection() {
+            projection.applyProjection(Number($("#tb1").val()), Number($("#tb2").val()), Number($("#tb3").val()));
+        }
+
+        $(document).ready(function () {
+            projection.Init("images/lenna256.png");
+        });     
+    </script>
+</body>
+</html>

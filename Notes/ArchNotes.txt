@@ -1,0 +1,92 @@
+﻿
+
+*********************
+histogram.js
+*********************
+--------------------------
+Methods
+--------------------------
+DrawHistogram: function (source, dest)
+
+--------------------------
+Members
+--------------------------
+this.width;
+    this.height;
+    this.Data = [];
+--------------------------
+Notes
+--------------------------
+histogram will take a 2d array and store an array of the data (index) and the values will be the total of each occurance.
+probably want to override this with an optional parameter that gives the max value,
+because then we don't have to figure out the max and min if it's rgb values
+look into text overlay and think about positioning.
+
+
+histogram will take a 2d array and store an array of the data (index) and the 
+values will be the total of each occurance.
+probably want to override this with an optional parameter that gives the max value,
+because then we don't have to figure out the max and min if it's rgb values
+*********************
+******************
+frequency.js
+******************
+--------------------------
+Methods
+--------------------------
+Init: function (imgSrc)
+InitFromExistingDipImage: function (dipImg)
+ApplyFilter: function ()
+
+--------------------------
+Members
+--------------------------
+    this.Filters = {"Gaussian Blur": [[1, 2, 1], [2, 4, 2], [1, 2, 1]]};
+    this.ActiveFilter;
+    this.Source = new dipImage();
+    this.GrayScale = new dipImage();
+    this.Destination = new dipImage();
+    this.width = 0;
+    this.height = 0;
+--------------------------
+Notes
+--------------------------
+real - imageData
+imaginary - imageData
+magnitude - imageData
+phase - imageData
+
+
+take pixel value * Math.pow(-1, (x + y) to transform to polar first
+get a row from source and a row from imaginary and run the fft on them (unnecessary, I can pass in a filler array of the image width, or make the parameter optional in the fft mathod. basically when we run the fft on the spatial data, the imaginary is going to be zero already.
+go through each value in r and i rows and divide the value by N (the width of the row) and round to a whole number
+set the real and imaginary rows to the values computed.
+
+
+get a column from source and a column from imaginary and run the fft on them
+
+loop through the column and calculate the manitude for each value, and round to 4 decimal places (ex.) --> var mag = this.roundNumber(Math.sqrt((r[n] * r[n]) + (i[n] * i[n])), 4);
+
+calculate the maximum magnitude while doing the above.
+*********************
+
+**********************
+Assorted Arch Notes
+**********************
+look into consolidating everything into one library
+after that, look into making it into a fluent interface
+
+The biggest issue is that we compute and lookup the index each time, 
+I'd imagine pulling by the index of the array will be much faster.
+Also, with the new duff loop method, we should be able to pass the function 
+to iterate over the array, which will be an additional speedup.
+
+
+add functionality to image data object to copy image data from array to array and to the canvas imagedata object. 
+Also add a filter for exporting as the imagedata for limiting values between 0-255, and any methods like hist eq 
+and whatnot need to operate in this fashion as well.. oh, like getting grey scale, setting apha to 255, etc.
+
+//todo: add history element to go forwards and backwards for applying filters and other
+        //transformation effects.
+        //this.history[history.length] = this.ImageData;
+*********************

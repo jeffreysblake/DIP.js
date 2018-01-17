@@ -1,0 +1,201 @@
+﻿*********************
+dipImageData.js
+*********************
+--------------------------
+Methods
+--------------------------
+Init: function (w, h)
+CopyCanvasSection: function (DestCan, sStartX, sStartY, sEndX, sEndY, dStartX, dStartY, dEndX, dEndY)
+CopyRotatedImage: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, drawDest)
+getPixelColumn: function (x)
+getPixelRow: function (y)
+setPixelColumn: function (x, arr)
+setPixelRow: function (y, arr)
+setPixel: function (x, y, val)
+getPixel: function (x, y)
+--------------------------
+Members
+--------------------------
+    this.width;
+    this.height;
+    this.Data = [];
+--------------------------
+Notes
+--------------------------
+js 2d array for x and y for image data.
+
+CopyCanvasSection: function (DestCan, sStartX, sStartY, sEndX, sEndY, dStartX, dStartY, dEndX, dEndY) {
+
+CopyRotatedImage: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, drawDest) {
+
+getPixelColumnRGBA: function (x) {
+   
+getPixelRowRGBA: function (y) {
+    
+setPixelColumnRGBA: function (x, r, g, b, a) {
+    
+setPixelRowRGBA: function (y, r, g, b, a) {
+   
+setPixelRGBA: function (x, y, r, g, b, a) {
+
+getPixelRGBA: function (x, y) {
+
+*********************
+
+*********************
+dipImage.js 
+*********************
+--------------------------
+Methods
+--------------------------
+Load: function (imgsrc)
+PopulateMembers: function ()
+CopyCanvasSection: function (DestCan, sStartX, sStartY, sEndX, sEndY, dStartX, dStartY, dEndX, dEndY)
+CopyRotatedImage: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, drawDest)
+getPixelColumnRGBA: function (x)
+getPixelRowRGBA: function (y)
+setPixelColumnRGBA: function (x, r, g, b, a)
+setPixelRowRGBA: function (y, r, g, b, a)
+setPixelRGBA: function (x, y, r, g, b, a)
+getPixelRGBA: function (x, y)
+RotateAndDraw: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, drawDest)
+
+--------------------------
+Members
+--------------------------
+this.dipcan = new dipCanvas();
+    this.width = 0;
+    this.height = 0;
+    this.RedChannel = new ImageData();
+    this.GreenChannel = new ImageData();
+    this.BlueChannel = new ImageData();
+    this.AlphaChannel = new ImageData();
+
+--------------------------
+Notes
+--------------------------
+dip image has r, g, and b channels for imageData...
+red channel (image data)
+green channel (image data)
+blue channel (image data)
+alpha channel (image data) (necessary? No, but it's sterile and I like the taste)
+other stuff? width? height? etc.?
+*********************
+
+*********************
+dipCanvas.js
+*********************
+--------------------------
+Methods
+--------------------------
+--------------------------
+Members
+--------------------------
+--------------------------
+Notes
+--------------------------
+testDraw: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, displaymsg, drawDest) {
+
+Draw: function () {var img = this.Context.createImageData(this.Canvas.width, this.Canvas.height);
+
+Createfft: function (DestinationCanvas, count) {
+
+LoadFromImage: function (image) {
+   
+Load: function (image) {
+
+*********************
+
+*********************
+histogram.js
+*********************
+--------------------------
+Methods
+--------------------------
+--------------------------
+Members
+--------------------------
+--------------------------
+Notes
+--------------------------
+histogram will take a 2d array and store an array of the data (index) and the values will be the total of each occurance.
+probably want to override this with an optional parameter that gives the max value,
+because then we don't have to figure out the max and min if it's rgb values
+
+
+*********************
+
+*********************
+DipUtils.js
+*********************
+--------------------------
+Methods
+--------------------------
+--------------------------
+Members
+--------------------------
+--------------------------
+Notes
+--------------------------
+roundNumber: function (num, dec) {
+
+initArray: function (arrayLength, defaultValue) {
+
+initArray2d: function (arrayLength, array2dLength, default2dValue) {
+
+DoDuff: function (Func, Arr, alertFunc) {
+
+GetMean: function (tempArray) {
+
+GetStandardDeviation: function (tempArray, Mean) {
+
+*********************
+
+
+******************
+frequency.js
+******************
+real - imageData
+imaginary - imageData
+magnitude - imageData
+phase - imageData
+
+
+take pixel value * Math.pow(-1, (x + y) to transform to polar first
+get a row from source and a row from imaginary and run the fft on them (unnecessary, I can pass in a filler array of the image width, or make the parameter optional in the fft mathod. basically when we run the fft on the spatial data, the imaginary is going to be zero already.
+go through each value in r and i rows and divide the value by N (the width of the row) and round to a whole number
+set the real and imaginary rows to the values computed.
+
+
+get a column from source and a column from imaginary and run the fft on them
+
+loop through the column and calculate the manitude for each value, and round to 4 decimal places (ex.) --> var mag = this.roundNumber(Math.sqrt((r[n] * r[n]) + (i[n] * i[n])), 4);
+
+calculate the maximum magnitude while doing the above.
+*********************
+
+******************
+Spatial.js
+******************
+--------------------------
+Methods
+--------------------------
+Init: function (w, h)
+CopyCanvasSection: function (DestCan, sStartX, sStartY, sEndX, sEndY, dStartX, dStartY, dEndX, dEndY)
+CopyRotatedImage: function (DestinationCanvas, dStartX, dStartY, dEndX, dEndY, drawDest)
+getPixelColumn: function (x)
+getPixelRow: function (y)
+setPixelColumn: function (x, arr)
+setPixelRow: function (y, arr)
+setPixel: function (x, y, val)
+getPixel: function (x, y)
+--------------------------
+Members
+--------------------------
+    this.width;
+    this.height;
+    this.Data = [];
+--------------------------
+Notes
+--------------------------
+******************
